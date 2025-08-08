@@ -5,6 +5,7 @@
 Coding and attempting to solve for all goldstars in a less stressful and competitive environment, trying various tools, technologies and languages.
 
 I probably wont come back to improve and make code look good. It's quick and dirty. I won't copy paste any code off the internet but rather solve it in the way my brain works.
+Yours might work differently... (probably better)
 
 ## Completion
 
@@ -12,7 +13,7 @@ I probably wont come back to improve and make code look good. It's quick and dir
 |------|-----|----------|-----------|
 | 2015 | 1   | Lua   | ⭐️⭐️        |
 | 2015 | 2   | Typescript   | ⭐️⭐️       |
-| 2015 | 3   | Python   |         |
+| 2015 | 3   | Python   | ⭐️⭐️         |
 | 2015 | 4   |    | |
 | 2015 | 5   | | |
 | 2015 | 6   | | |
