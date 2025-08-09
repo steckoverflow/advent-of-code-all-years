@@ -17,6 +17,8 @@ for m in d:
 
 print("Part 1: ", len(set(v)))
 
+# yuck! copy and paste quick and dirty
+
 v = []
 s = 0, 0
 rs = 0, 0
