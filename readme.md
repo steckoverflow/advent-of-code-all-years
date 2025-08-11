@@ -11,11 +11,11 @@ Yours might work differently... (probably better)
 
 | Year | Day | Language | Stars |
 |------|-----|----------|-----------|
-| 2015 | 1   | Lua   | ⭐️⭐️        |
-| 2015 | 2   | Typescript   | ⭐️⭐️       |
-| 2015 | 3   | Python   | ⭐️⭐️         |
-| 2015 | 4   | Perl   | ⭐️⭐️  |
-| 2015 | 5   | Lua | ⭐️⭐️|
+| 2015 | 1   | Lua   | ⭐️⭐️ |
+| 2015 | 2   | Typescript   | ⭐️⭐️ |
+| 2015 | 3   | Python   | ⭐️⭐️ |
+| 2015 | 4   | Perl   | ⭐️⭐️ |
+| 2015 | 5   | Lua | ⭐️⭐️ |
 | 2015 | 6   | | |
 | 2015 | 7   | | |
 | 2015 | 8   | | |

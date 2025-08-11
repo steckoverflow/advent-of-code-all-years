@@ -1,7 +1,7 @@
-import { readFile } from "node:fs/promises";
-
-const content = await readFile("2.txt");
-const text = content.toString("utf8");
+// import { readFile } from "node:fs/promises";
+//
+// const content = await readFile("2.txt");
+// const text = content.toString("utf8");
 
 let [total, ribbon] = [0, 0];
 for (const line of text.split(/\r?\n/)) {
