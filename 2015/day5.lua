@@ -38,7 +38,54 @@ for line in io.lines("5.txt") do
 	end
 end
 
--- print(data)
--- print(type(data))
-
 print("Part 1: ", count)
+
+local function contains_pair_twice(str)
+	for i = 1, #str - 2 do
+		local s1 = str:sub(i, i + 1)
+		for j = i + 2, #str - 1 do
+			local s2 = str:sub(j, j + 1)
+			-- print(i, s1, j, s2)
+			if s1 == s2 then
+				return true
+			end
+		end
+	end
+	return false
+end
+
+local function one_repeat_one_between(str)
+	for i = 1, #str - 2 do
+		local s1 = str:sub(i, i)
+		local s2 = str:sub(i + 2, i + 2)
+		if s1 == s2 then
+			return true
+		end
+	end
+	return false
+end
+
+count = 0
+for line in io.lines("5.txt") do
+	if contains_pair_twice(line) and one_repeat_one_between(line) then
+		count = count + 1
+	end
+end
+
+print("Part 2: ", count)
+
+-- NOTE: Used below to debug
+--
+-- shite = { "qjhvhtzxzqqjkmpb", "xxyxx", "uurcxstgmygtbstg", "ieodomkazucvgmuy" }
+--
+--
+-- for _, v in ipairs(shite) do
+-- 	print(
+-- 		"Value: ",
+-- 		v,
+-- 		" contains pair: ",
+-- 		contains_pair_twice(v),
+-- 		" one repeat one between: ",
+-- 		one_repeat_one_between(v)
+-- 	)
+-- end
