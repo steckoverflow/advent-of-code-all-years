@@ -16,7 +16,7 @@ Yours might work differently... (probably better)
 | 2015 | 3   | Python   | ⭐️⭐️ |
 | 2015 | 4   | Perl   | ⭐️⭐️ |
 | 2015 | 5   | Lua | ⭐️⭐️ |
-| 2015 | 6   | | |
+| 2015 | 6   | Javascript | ⭐️⭐️ |
 | 2015 | 7   | | |
 | 2015 | 8   | | |
 | 2015 | 9   | | |
