@@ -1,117 +1,102 @@
-test = """
-123 -> x
-456 -> y
-x AND y -> d
-x OR y -> e
-x LSHIFT 2 -> f
-y RSHIFT 2 -> g
-NOT x -> h
-NOT y -> i
-"""
+def load_data(use_test_data: bool = False) -> tuple[dict[str, int], list[str]]:
+    test = """
+    123 -> x
+    456 -> y
+    x AND y -> d
+    x OR y -> e
+    x LSHIFT 2 -> f
+    y RSHIFT 2 -> g
+    NOT x -> h
+    NOT y -> i
+    """
+    with open("7.txt", "r") as f:
+        data = f.read()
+    wires = {}
+    instructions = []
+    data = test if use_test_data else data
+    for row in data.split("\n"):
+        if not row:
+            continue
+        wires[row.split(" ")[-1]] = None
+        instructions.append(row.strip())
+    return wires, instructions
 
-with open("7.txt", "r") as f:
-    data = f.read()
+
+def single_action(task, dest, wires) -> bool:
+    if task.isnumeric():
+        wires[dest] = int(task)
+        return True
+    ref = wires.get(task)
+    if ref:
+        wires[dest] = ref
+        return True
+    return False
 
 
-wires = {}
-instructions = []
-
-for row in test.split("\n"):
-    if not row:
-        continue
-    wires[row.split(" ")[-1]] = None
-    instructions.append(row)
+def two_actions(tasks, dest, wires) -> bool:
+    if not tasks[0] == "NOT" or wires[tasks[-1]] is None:
+        return False
+    # NOTE: As integers are variable length I need to somehow force it into a 16bit length
+    wires[dest] = (~wires[tasks[-1]]) & 0xFFFF
+    return True
 
 
-# NOTE: yikes. quick and dirty turned into this mess.
-# Okay... slightly more clean?
-# Basically, since switches don't power on until their input is ready we keep parsing the inputs until this is the case
-# and only remove one instruction after it actually executed.
+def three_actions(tasks, dest, wires) -> bool:
+    v1, inst, v2 = tasks
+    if inst == "AND":
+        if v1.isnumeric():
+            if not wires[v2] is None:
+                wires[dest] = int(v1) & wires[v2]
+                return True
+            return False
+        elif not wires[v1] is None and not wires[v2] is None:
+            wires[dest] = wires[v1] & wires[v2]
+            return True
+        else:
+            return False
+    elif inst == "OR":
+        if not wires[v1] is None and not wires[v2] is None:
+            wires[dest] = wires[v1] | wires[v2]
+            return True
+        return False
+    elif inst == "RSHIFT":
+        if not wires[v1] is None:
+            wires[dest] = wires[v1] >> int(v2)
+            return True
+        return False
+    elif inst == "LSHIFT":
+        if not wires[v1] is None:
+            wires[dest] = wires[v1] << int(v2)
+            return True
+        return False
 
-while len(instructions):
-    print(f"Number of instructions: {len(instructions)}")
+
+def process_tasks(dest: str, tasks: list, wires: dict[str, int | None]) -> bool:
+    if len(tasks) == 1:
+        return single_action(tasks[0], dest, wires)
+    elif len(tasks) == 2:
+        return two_actions(tasks, dest, wires)
+    elif len(tasks) == 3:
+        return three_actions(tasks, dest, wires)
+
+
+def process_instructions(instructions: list[str], wires: dict[str, int | None]):
+    # print(f"Number of instructions: {len(instructions)}")
     line = instructions.pop(0)
+    if not line:
+        return
     inst, dest = line.split(" -> ")
     tasks = inst.split(" ")
-
-    # Direct assignment
-    if len(tasks) == 1:
-        if tasks[0].isnumeric():  # direct
-            wires[dest] = int(tasks[0])
-            print(f"-> {dest} set value {tasks[0]}")
-            continue
-
-        lkp = wires.get(tasks[0])
-        if lkp:  # lookup
-            wires[dest] = lkp
-            print(f"-> {dest} set value {lkp}")
-            continue
-
+    # print(f"Attempting to perform instruction: {inst} on destination: {dest}")
+    success = process_tasks(dest, tasks, wires)
+    if not success:
         instructions.append(line)
+    # print(f"Success: {success}, Wires: {wires}")
 
-    # Inverse
-    elif len(tasks) == 2:
-        if tasks[0] == "NOT":
-            if wires[tasks[-1]]:
-                wires[dest] = ~wires[tasks[-1]]
-                print(f"{dest} inverted value {~wires[tasks[-1]]}")
-                continue
 
-        # TODO: Add info about else clauses
-
-        instructions.append(line)
-
-    # Binary ops
-    elif len(tasks) == 3:
-        v1, inst, v2 = tasks
-        if inst == "AND":
-            if (
-                not v1.isnumeric()
-                and wires[v1] is None
-                or not v2.isnumeric()
-                and wires[v2] is None
-            ):
-                instructions.append(line)
-                continue
-            if not v1.isnumeric() and not v2.isnumeric():
-                print(f"{dest} binary and {wires[v1] & wires[v2]}")
-                wires[dest] = wires[v1] & wires[v2]
-            elif v1.isnumeric():
-                print(f"{dest} binary and {int(v1) & wires[v2]}")
-                wires[dest] = int(v1) & wires[v2]
-            elif v2.isnumeric():
-                print(f"{dest} binary and {int(v2) & wires[v1]}")
-                wires[dest] = int(v2) & wires[v1]
-
-        elif inst == "OR":
-            if (
-                not v1.isnumeric()
-                and wires[v1] is None
-                or not v2.isnumeric()
-                and wires[v2] is None
-            ):
-                instructions.append(line)
-                continue
-            if not v1.isnumeric() and not v2.isnumeric():
-                print(f"{dest} binary or {wires[v1] | wires[v2]}")
-                wires[dest] = wires[v1] | wires[v2]
-            elif v1.isnumeric():
-                print(f"{dest} binary or {int(v1) | wires[v2]}")
-                wires[dest] = int(v1) | wires[v2]
-            elif v2.isnumeric():
-                print(f"{dest} binary or {int(v2) | wires[v1]}")
-                wires[dest] = int(v2) | wires[v1]
-        elif inst == "RSHIFT":
-            if not v2.isnumeric() and wires[v1] is None:
-                instructions.append(line)
-                continue
-            print(f"{dest} rightshift {wires[v1] >> int(v2)}")
-            wires[dest] = wires[v1] >> int(v2)
-        elif inst == "LSHIFT":
-            if not v2.isnumeric() and wires[v1] is None:
-                instructions.append(line)
-                continue
-            print(f"{dest} leftshit {wires[v1] << int(v2)}")
-            wires[dest] = wires[v1] << int(v2)
-
-print("Part 1: ", wires)
+if __name__ == "__main__":
+    wires, instructions = load_data(use_test_data=False)
+    # print("Before processing: ", wires)
+    while len(instructions):
+        process_instructions(instructions, wires)
+    print("Part 1: ", wires["a"])
