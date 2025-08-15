@@ -7,6 +7,8 @@ Coding and attempting to solve for all goldstars in a less stressful and competi
 I probably wont come back to improve and make code look good. It's quick and dirty. I won't copy paste any code off the internet but rather solve it in the way my brain works.
 Yours might work differently... (probably better)
 
+If I struggle'd with something I add 🥵
+
 ## Completion
 
 | Year | Day | Language | Stars |
@@ -17,7 +19,7 @@ Yours might work differently... (probably better)
 | 2015 | 4   | Perl   | ⭐️⭐️ |
 | 2015 | 5   | Lua | ⭐️⭐️ |
 | 2015 | 6   | Javascript | ⭐️⭐️ |
-| 2015 | 7   | | |
+| 2015 | 7   | Python | ⭐️🥵 |
 | 2015 | 8   | | |
 | 2015 | 9   | | |
 | 2015 | 10  | | |
