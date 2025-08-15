@@ -100,3 +100,11 @@ if __name__ == "__main__":
     while len(instructions):
         process_instructions(instructions, wires)
     print("Part 1: ", wires["a"])
+    part1 = wires["a"]
+    wires, instructions = load_data(use_test_data=False)
+    wires["b"] = part1
+    print(wires)
+    while len(instructions):
+        process_instructions(instructions, wires)
+    # print(wires)
+    print("Part 2: ", wires["a"])
