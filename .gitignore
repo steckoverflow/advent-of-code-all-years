@@ -1,2 +1,7 @@
 .env
 __pycache__/
+.aider*
+
+# scala
+.bsp/
+.scala-build/

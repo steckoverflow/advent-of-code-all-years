@@ -1,2 +1,0 @@
-python download_input_cli.py --year 2015 --day 1
-python download_input_cli.py -y 2020 -d 5 -o ./inputs/day5.txt
