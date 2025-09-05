@@ -26,8 +26,9 @@ sorted_relationships = sorted(
 )
 
 
+@dataclass
 class Person:
-    left: Person
+    left: 'Person'  # Use string annotation for forward reference
 
 
 pprint.pprint(sorted_relationships)
