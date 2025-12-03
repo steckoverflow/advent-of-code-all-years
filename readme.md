@@ -39,3 +39,4 @@ If I struggle'd with something I add 🥵
 | 2015 | 24  | | |
 | 2015 | 25  | | |
 | 2016 | 1   | | |
+| 2025 | 1   | Python | ⭐️⭐️ |
